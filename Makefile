@@ -6,7 +6,7 @@
 #    By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 10:43:18 by bfresque          #+#    #+#              #
-#    Updated: 2023/05/10 14:40:02 by bfresque         ###   ########.fr        #
+#    Updated: 2023/05/15 15:15:53 by bfresque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ SRCS_GNL =	libft/get_next_line/get_next_line.c \
 
 SRCS =	srcs/pipex.c \
 		srcs/utils.c \
+		srcs/find_and_verif.c \
 
 OBJS = $(SRCS_LIB:.c=.o) $(SRCS_PRINTF:.c=.o) $(SRCS_GNL:.c=.o) $(SRCS:.c=.o)
 

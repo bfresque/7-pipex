@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:59:36 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/12 13:50:42 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:17:29 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ typedef struct s_data
 # define WHITE "\033[37m"
 
 /*********************	pipex.c ********************************/
+
+
+/*********************	find_and_verif.c ***********************/
+char	**find_all_paths(char **envp, t_data *data);
+char	*check_cmd_path(t_data *data, char *args, char **envp);
+t_cmd	verif_cmd(t_data *data, char *cmd_av, char **envp);
+void	recup_cmd(t_data *data, char **av, char **envp);
 
 
 /*********************	utils.c ********************************/

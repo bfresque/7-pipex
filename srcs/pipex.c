@@ -6,23 +6,11 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/15 12:40:00 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:57:08 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-
-
-t_cmd	decoupe_cmd(t_data *data, char *ac_cmd)
-{
-	t_cmd	command;
-	char	**acs;
-
-	acs = ft_split(ac_cmd, ' ');
-	command.ac = acs;
-	return (command);
-}
 
 char	**find_all_paths(char **envp, t_data *data)
 {
@@ -35,7 +23,6 @@ char	**find_all_paths(char **envp, t_data *data)
 		if(ft_strncmp_pipex("PATH=", *envp, 5) == 0)
 		{
 			path = &((*envp)[5]);
-			// printf("envp[%d] = %s\n", i, *envp);
 			break;
 		}
 		envp++;
@@ -45,31 +32,11 @@ char	**find_all_paths(char **envp, t_data *data)
 	return(all_paths);
 }
 
-// char	*check_cmd_path(t_data *data, char *cmd_ac, char **envp)
-// {
-// 	int		i;
-// 	char	**all_paths;
-// 	char	*cmd_path;
-
-// 	all_paths = find_all_paths(envp, data);
-// 	i = 0;
-// 	while (all_paths[i])
-// 	{
-// 		cmd_path = ft_strjoin_pipex(all_paths[i], cmd_ac);
-// 		printf("cmd and path : %s\n", cmd_path);
-// 		if (access(cmd_path, F_OK | X_OK) == 0)
-// 			break ;
-// 		i++;
-// 	}
-// 	return (cmd_path);
-// }
-
-
-char *check_cmd_path(t_data *data, char *args, char **envp) 
+char	*check_cmd_path(t_data *data, char *args, char **envp) 
 {
-	char **temp_path;
-	char *valid_path;
-	int i;
+	char	**temp_path;
+	char	*valid_path;
+	int		i;
 
 	temp_path = find_all_paths(envp, data);
 	valid_path = NULL;
@@ -91,15 +58,24 @@ char *check_cmd_path(t_data *data, char *args, char **envp)
 	return (valid_path);
 }
 
-t_cmd	verif_cmd(t_data *data, char *cmd, char **envp)
+t_cmd	verif_cmd(t_data *data, char *cmd_av, char **envp) // mets les args en tabs
 {
 	t_cmd	command;
 
-	command = decoupe_cmd(data, cmd);
-	if (command.ac == NULL)
-		return (command);
+	command.ac = ft_split(cmd_av, ' ');
 	command.path = check_cmd_path(data, *command.ac, envp);
-	printf("\n\n command path :  = %s\n", command.path);
+
+	// int i =0;
+	if (execve(command.path, command.ac, envp) == -1) 
+	{
+		// printf("TESTTTTTTTTTTTT\n");
+		perror("execve");
+		exit(EXIT_FAILURE);
+		// i++;
+	}
+	else
+		printf("Le PATH de ma cmd est : %s\n", command.path); // a suppr
+	
 	return (command);
 }
 
@@ -107,7 +83,6 @@ void	recup_cmd(t_data *data, char **av, char **envp)
 {
 	data->cmd_one = verif_cmd(data, av[2], envp);
 	data->cmd_two = verif_cmd(data, av[3], envp);
-	// printf("cmd_one first argc : %s\n", *data->cmd_one.ac);
 }
 
 int main(int ac, char **av, char **envp)
@@ -115,41 +90,4 @@ int main(int ac, char **av, char **envp)
 	t_data data;
 
 	recup_cmd(&data, av, envp);
-	// printf("\n\n tab first = %s\n", *data.all_paths);
 }
-
- 
-// void	all_ac(int ac, char **av, char **envp, t_data *data)
-// {
-// 	int i = 1;
-// 	char *cmd = NULL;
-// 	int  y = 0;
-// 	while (i < ac)
-// 	{
-// 		cmd[y] = av[i];
-// 		// data->all_ac = ft_split(av[i], ' ');
-// 		// printf("ac = %s\n", *data->all_ac);
-// 		i++;
-// 		y++;
-// 	}
-// 	printf("tt ac = %s\n", cmd);
-// } 
-
-// #include <unistd.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-
-// int main() {
-//     char *const argv[] = {"ls", "-l", NULL};
-//     char *const envp[] = {NULL};
-
-//     if (execve("/bin/ls", argv, envp) == -1) {
-//         perror("execve");
-//         exit(EXIT_FAILURE);
-//     }
-
-//     // Cette ligne ne sera jamais exécutée
-//     printf("Ce message ne sera jamais affiché\n");
-
-//     return 0;
-// }

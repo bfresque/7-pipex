@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:59:36 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/15 14:17:29 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:02:27 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
+
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
+
+# define INFILE 0
+# define OUTFILE 1
 
 typedef struct s_cmd
 {

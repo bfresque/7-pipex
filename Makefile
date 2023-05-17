@@ -6,26 +6,26 @@
 #    By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 10:43:18 by bfresque          #+#    #+#              #
-#    Updated: 2023/05/15 15:15:53 by bfresque         ###   ########.fr        #
+#    Updated: 2023/05/17 10:42:38 by bfresque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex
 
-NAME_LIB = libft/libft/libft.a
-NAME_GNL = get_next_line.a
-NAME_PRINTF = libftprintf.a
+NAME = pipex
 
 CC = gcc
 
 CFLAGS = -Wall #-Wextra -Werror -g3
 
-GREEN = \033[92m
-YELLOW = \033[33m
-NEUTRAL = \033[0m
-I = \033[3m
+OBJ_DIR_PIPEX = srcs/obj_pipex
 
-SRCS_LIB =	libft/libft/ft_isalpha.c \
+OBJ_DIR_LIBFT = libft/obj_libft
+
+SRCS = srcs/pipex.c \
+	srcs/utils.c \
+	srcs/find_and_verif.c \
+
+SRC_LIBFT =	libft/libft/ft_isalpha.c \
 			libft/libft/ft_isdigit.c \
 			libft/libft/ft_isalnum.c \
 			libft/libft/ft_isascii.c \
@@ -70,6 +70,9 @@ SRCS_LIB =	libft/libft/ft_isalpha.c \
 			libft/libft/ft_lstiter.c \
 			libft/libft/ft_lstmap.c \
 
+SRCS_GNL =	libft/get_next_line/get_next_line.c \
+			libft/get_next_line/get_next_line_utils.c \
+
 SRCS_PRINTF =	libft/ft_printf/ft_print_b16.c \
 				libft/ft_printf/ft_print_nbr.c \
 				libft/ft_printf/ft_print_ptr.c \
@@ -77,38 +80,36 @@ SRCS_PRINTF =	libft/ft_printf/ft_print_b16.c \
 				libft/ft_printf/ft_print_unbr.c \
 				libft/ft_printf/ft_printf.c \
 
-SRCS_GNL =	libft/get_next_line/get_next_line.c \
-			libft/get_next_line/get_next_line_utils.c \
-
-SRCS =	srcs/pipex.c \
-		srcs/utils.c \
-		srcs/find_and_verif.c \
-
-OBJS = $(SRCS_LIB:.c=.o) $(SRCS_PRINTF:.c=.o) $(SRCS_GNL:.c=.o) $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=$(OBJ_DIR_PIPEX)/%.o) \
+		$(SRC_LIBFT:%.c=$(OBJ_DIR_LIBFT)/%.o) \
+		$(SRCS_GNL:%.c=$(OBJ_DIR_LIBFT)/%.o) \
+		$(SRCS_PRINTF:%.c=$(OBJ_DIR_LIBFT)/%.o) \
 
 AR = ar rcs
 
 RM = rm -f
 
-%.o: %.c
+$(OBJ_DIR_PIPEX)/%.o $(OBJ_DIR_LIBFT)/%.o: %.c
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(I)$(YELLOW)Compilation LIBFT Done $(NEUTRAL)"
-	@echo "$(I)$(YELLOW)Compilation FT_PRINTF Done $(NEUTRAL)"
-	@echo "$(I)$(YELLOW)Compilation GNL Done \n$(NEUTRAL)"
-	@echo "$(GREEN)Compilation PIPEX Done $(NEUTRAL)"
+	@echo "\033[5;36m\n-gcc *.c libft done\033[0m"
+	@echo "\033[5;36m-gcc *.c get_next_line done\033[0m"
+	@echo "\033[5;36m-gcc *.c ft_printf done\033[0m"
+	@echo "\033[5;36m-gcc *.c pipex done\n\033[0m"
+	@echo "\033[1;32m[Make : 'pipex' is done]\033[0m"
 
 all : $(NAME)
 
 clean :
 	@$(RM) $(OBJS)
-	@echo "$(GREEN)Object files removed $(NEUTRAL)"
+	@echo "\033[1;33m[.o] Object files removed\033[0m"
 
 fclean : clean
 	@$(RM) $(NAME)
-	@echo "$(GREEN)Binary file removed $(NEUTRAL)"
+	@echo "\033[1;33m[.a] Binary file removed\033[0m"
 
 re : fclean all
 

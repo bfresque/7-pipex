@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 15:28:47 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:51:41 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int child_process_two(char **cmd2, t_data *data, char **av, char **envp)
 
 void	pipex(t_data *data, char **av, char **envp)
 {
-	int fd[2];
 	pid_t	pid;
+	int fd[2];
+	int f2;
 	int status;
 
 	pipe(fd);
@@ -52,27 +53,27 @@ void	pipex(t_data *data, char **av, char **envp)
 		waitpid(pid, &status, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		child_process_two(data->cmd_two.ac, data, av, envp);
 		close(fd[0]);
+		f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (f2 < 0) {
+			perror("Erreur lors de l'ouverture du fichier de sortie");
+			exit(1);
+		}
+		dup2(f2, STDOUT_FILENO);
+		child_process_two(data->cmd_two.ac, data, av, envp);
+		close(f2);
 	}
 }
 
 
 int main(int ac, char **av, char **envp)
 {
+	t_data data;
 	int	f1;
 	int	f2;
 
-	t_data data;
-	
 	f1 = open(av[1], O_RDONLY);
-	f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	
-	if (f1 < 0 || f2 < 0)
-		return (-1);
-	
 	pipex(&data, av, envp);
-	
 	return (0);
 }
 

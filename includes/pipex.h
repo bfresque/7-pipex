@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:59:36 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 11:04:47 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:21:00 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,18 @@
 # include "../includes/get_next_line.h"
 # include "../includes/libft.h"
 # include "../includes/ft_printf.h"
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <stdint.h>
+# include <string.h>
+# include <fcntl.h>
+
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <stdio.h>
-# include <stdlib.h>
 
 
 # define INT_MAX 2147483647

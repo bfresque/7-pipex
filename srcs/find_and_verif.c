@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 11:37:08 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:09:15 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,20 @@ t_cmd	verif_cmd(t_data *data, char *cmd_av, char **envp)
 
 	command.ac = ft_split(cmd_av, ' ');
 	command.path = check_cmd_path(data, *command.ac, envp);
-	printf("AAAAAAAAAAAAAAAAA\n\n");
-	printf("path:%s\n\n", command.path);
-	printf("ac:%s\n\n", *command.ac);
+	// printf("ac:%s\n\n", *command.ac);
+	// printf("path:%s\n\n", command.path);
 	
-	int res = execve(command.path, command.ac, envp);
-	printf("res = %d\n\n", res);
-	if (res == -1)
-	{
-		printf("EERRRROOOOORRRR\n\n");
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	else
-		printf("Le PATH de ma cmd est : %s\n", command.path);/* a suppr */
-	printf("WWWWWWWWWWWWWWWWWWW\n\n");
+	// execve(command.path, command.ac, envp);
+	// printf("res = %d\n\n", res);
+	// if (res == -1)
+	// {
+	// 	printf("EERRRROOOOORRRR\n\n");
+	// 	perror("execve");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// else
+	// 	printf("Le PATH de ma cmd est : %s\n", command.path);/* a suppr */
+	// printf("WWWWWWWWWWWWWWWWWWW\n\n");
 	return (command);
 }
 

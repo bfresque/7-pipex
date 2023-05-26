@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 16:56:27 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:24:11 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,22 @@
 int	child_process_one(t_data *data, char **av, char **envp)
 {
 	recup_cmd(data, av, envp);
-	execve(data->cmd_one.path, data->cmd_one.ac, envp);
+	if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
+	{
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }
 
 int	child_process_two(t_data *data, char **av, char **envp)
 {
 	recup_cmd(data, av, envp);
-	execve(data->cmd_two.path, data->cmd_two.ac, envp);
+	if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
+	{
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }
 
@@ -69,12 +77,17 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	data;
 	int		f1;
-
-	(void)ac;
-	f1 = open(av[1], O_RDONLY);
-	if (f1 < 0)
-		return (-1);
-	pipex(&data, av, envp);
-	close(f1);
+	
+	if(ac == 5)
+	{
+		(void)ac;
+		f1 = open(av[1], O_RDONLY);
+		if (f1 < 0)
+			return (-1);
+		pipex(&data, av, envp);
+		close(f1);
+	}
+	else
+		ft_printf("Error: invalid number of arguments\n");
 	return (0);
 }

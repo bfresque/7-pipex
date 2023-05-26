@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:38:54 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/12 13:55:12 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/26 09:52:22 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,14 @@ char	*ft_strjoin_pipex(char *s1, char *s2)
 	}
 	dest[i + j] = '\0';
 	return (dest);
+}
+
+void	ft_free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }

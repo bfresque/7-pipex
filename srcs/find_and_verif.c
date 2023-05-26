@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 16:32:57 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:42:27 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,16 @@ char	*check_cmd_path(char *args, char **envp)
 		}
 		i++;
 	}
-	if (access(valid_path, F_OK | X_OK) == 0)
-		return (valid_path);
+	ft_free_tab(temp_path);
+	if(valid_path != NULL)
+	{
+		if (access(valid_path, F_OK | X_OK) == 0)
+			return (valid_path);
+	}
 	else
 	{
-		perror("access");
-		exit(-1);
+		free(valid_path);
+		perror("Error");
 	}
 	return (valid_path);
 }
@@ -68,18 +72,26 @@ t_cmd	verif_cmd(char *cmd_av, char **envp)
 
 	command.ac = ft_split(cmd_av, ' ');
 	command.path = check_cmd_path(*command.ac, envp);
-	// if (execve(command.path, command.ac, envp) == -1)
-	// {
-	// 	perror("execve");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// else
-	// 	printf("Le PATH de ma cmd est : %s\n", command.path);/* a suppr */
 	return (command);
 }
 
 void	recup_cmd(t_data *data, char **av, char **envp)
 {
 	data->cmd_one = verif_cmd(av[2], envp);
+	if(data->cmd_one.path == NULL)
+	{
+		free(data->cmd_one.path);
+		ft_free_tab(data->cmd_one.ac);
+		exit(-1);
+	}
+	
 	data->cmd_two = verif_cmd(av[3], envp);
+	if(data->cmd_two.path == NULL)
+	{
+		free(data->cmd_one.path);
+		// free(data->cmd_two.path); // change rien
+		ft_free_tab(data->cmd_one.ac);
+		ft_free_tab(data->cmd_two.ac);
+		exit(-1);
+	}
 }

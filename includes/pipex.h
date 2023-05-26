@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:59:36 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/25 17:21:17 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:37:17 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,14 @@ typedef struct s_data
 /*********************	pipex.c ********************************/
 
 /*********************	find_and_verif.c ***********************/
-char	**find_all_paths(char **envp);
-char	*check_cmd_path(char *args, char **envp);
-t_cmd	verif_cmd(char *cmd_av, char **envp);
+// char	**find_all_paths(char **envp);
+// char	*check_cmd_path(char *args, char **envp);
+// t_cmd	verif_cmd(char *cmd_av, char **envp);
 void	recup_cmd(t_data *data, char **av, char **envp);
 
 /*********************	utils.c ********************************/
 int		ft_strncmp_pipex(char *s1, char *s2, int n);
 char	*ft_strjoin_pipex(char *s1, char *s2);
+void	ft_free_tab(char **tab);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 14:26:09 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:47:19 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	pipex(t_data *data, char **av, char **envp)
 		f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (f2 < 0)
 		{
+			ft_free_all_data(data);
 			perror(av[4]);
 			exit(-1);
 		}
@@ -95,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 		pipex(&data, av, envp);
 	}
 	else
-		ft_mess_error("Error: Bad numbers of arguments\n");
+		ft_printf("Error: Bad numbers of arguments\n");
 	return (0);
 }
 

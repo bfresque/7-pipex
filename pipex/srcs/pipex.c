@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 14:47:19 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:29:05 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	child_process_one(t_data *data, char **av, char **envp)
 	{
 		if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
 		{
+			// ft_free_tab(data->cmd_one.ac);
 			ft_mess_error("Error: Execve child one\n");
 			exit(-1);
 		}
@@ -30,6 +31,9 @@ void	child_process_two(t_data *data, char **av, char **envp)
 	{
 		if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
 		{
+			// free(data->cmd_one.path);
+			// ft_free_tab(data->cmd_one.ac);
+			// ft_free_tab(data->cmd_two.ac);
 			ft_mess_error("Error: Execve child two\n");
 			exit(-1);
 		}
@@ -54,6 +58,7 @@ void	pipex(t_data *data, char **av, char **envp)
 		f1 = open(av[1], O_RDONLY);
 		if (f1 < 0)
 		{
+			ft_free_all_data(data);
 			perror(av[1]);
 			exit(-1);
 		}

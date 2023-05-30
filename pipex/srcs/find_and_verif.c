@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 10:40:15 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:24:35 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,17 @@ char	*check_cmd_path(char *args, char **envp)
 		i++;
 	}
 	ft_free_tab(temp_path);
-	if(valid_path != NULL)
+	if (valid_path != NULL)
 	{
 		if (access(valid_path, F_OK | X_OK) == 0)
 			return (valid_path);
 	}
-	else
-		perror("Error");
+	else if (valid_path == NULL)
+	{
+		ft_mess_error(args);
+		//free()
+		//exit
+	}
 	return (valid_path);
 }
 
@@ -72,17 +76,17 @@ t_cmd	verif_cmd(char *cmd_av, char **envp)
 void	recup_cmd(t_data *data, char **av, char **envp)
 {
 	data->cmd_one = verif_cmd(av[2], envp);
-	if(data->cmd_one.path == NULL)
-	{
-		ft_free_tab(data->cmd_one.ac);
-		exit(-1);
-	}
+	// if(data->cmd_one.path == NULL)
+	// {
+	// 	// ft_free_tab(data->cmd_one.ac);
+	// 	// exit(-1);
+	// }
 	data->cmd_two = verif_cmd(av[3], envp);
-	if(data->cmd_two.path == NULL)
-	{
-		free(data->cmd_one.path);
-		ft_free_tab(data->cmd_one.ac);
-		ft_free_tab(data->cmd_two.ac);
-		exit(-1);
-	}
+	// if(data->cmd_two.path == NULL)
+	// {
+	// 	free(data->cmd_one.path);
+	// 	ft_free_tab(data->cmd_one.ac);
+	// 	ft_free_tab(data->cmd_two.ac);
+	// 	exit(-1);
+	// }
 }

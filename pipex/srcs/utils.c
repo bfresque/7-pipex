@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:38:54 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 10:17:20 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:43:15 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ void	ft_free_tab(char **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
+}
+
+void	ft_mess_error(char *str)
+{
+	char *s2;
+	int i;
+	int y;
+	
+	s2 = " : command not found\n";
+	i = ft_strlen(str);
+	y = ft_strlen(s2);
+	
+	write(2, str, i);
+	write(2, s2, y);
 }
 
 void	ft_free_all_data(t_data *data)

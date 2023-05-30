@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:59:36 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 10:17:26 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 11:26:18 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int		ft_strncmp_pipex(char *s1, char *s2, int n);
 char	*ft_strjoin_pipex(char *s1, char *s2);
 void	ft_free_all_data(t_data *data);
 void	ft_free_tab(char **tab);
+void	ft_mess_error(char *str);
 
 #endif

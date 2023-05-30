@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/26 13:52:14 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:40:15 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ char	**find_all_paths(char **envp)
 {
 	char	*path;
 	char	**all_paths;
-	int		i;
 
-	i = 0;
 	while (*envp)
 	{
 		if (ft_strncmp_pipex("PATH=", *envp, 5) == 0)
@@ -27,7 +25,6 @@ char	**find_all_paths(char **envp)
 			break ;
 		}
 		envp++;
-		i++;
 	}
 	all_paths = ft_split(path, ':');
 	return (all_paths);
@@ -59,10 +56,7 @@ char	*check_cmd_path(char *args, char **envp)
 			return (valid_path);
 	}
 	else
-	{
-		free(valid_path);
 		perror("Error");
-	}
 	return (valid_path);
 }
 
@@ -80,11 +74,9 @@ void	recup_cmd(t_data *data, char **av, char **envp)
 	data->cmd_one = verif_cmd(av[2], envp);
 	if(data->cmd_one.path == NULL)
 	{
-		free(data->cmd_one.path);
 		ft_free_tab(data->cmd_one.ac);
 		exit(-1);
 	}
-	
 	data->cmd_two = verif_cmd(av[3], envp);
 	if(data->cmd_two.path == NULL)
 	{

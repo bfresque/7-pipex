@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:38:54 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/26 09:52:22 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:17:20 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,12 @@ void	ft_free_tab(char **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
+}
+
+void	ft_free_all_data(t_data *data)
+{
+	free(data->cmd_two.path);
+	free(data->cmd_one.path);
+	ft_free_tab(data->cmd_one.ac);
+	ft_free_tab(data->cmd_two.ac);
 }

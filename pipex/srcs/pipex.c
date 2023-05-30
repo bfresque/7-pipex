@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/26 14:14:42 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:33:11 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 
 int	child_process_one(t_data *data, char **av, char **envp)
 {
-	recup_cmd(data, av, envp);
 	if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
 	{
 		perror("execve");
-		exit(EXIT_FAILURE);
+		exit(-1);
 	}
 	return (0);
 }
 
 int	child_process_two(t_data *data, char **av, char **envp)
 {
-	recup_cmd(data, av, envp);
 	if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
 	{
 		perror("execve");
-		exit(EXIT_FAILURE);
+		exit(-1);
 	}
 	return (0);
 }
@@ -40,8 +38,8 @@ void	pipex(t_data *data, char **av, char **envp)
 	int		fd[2];
 	int		f2;
 	int		status;
-	// int		child_two_success = 0;
 
+	recup_cmd(data, av, envp);
 	pipe(fd);
 	pid = fork();
 	if (pid < 0)
@@ -65,26 +63,16 @@ void	pipex(t_data *data, char **av, char **envp)
 		f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (f2 < 0)
 		{
-			perror("Error @: opening file");
+			perror("Error: opening file");
 			exit(-1);
 		}
 		dup2(f2, STDOUT_FILENO);
 		child_process_two(data, av, envp);
 		close(f2);
-		// child_two_success = 1; // Indique que le processus enfant deux a réussi
-		// exit(0); // Ajout de l'instruction exit pour terminer le processus enfant
 	}
-
-	// wait(NULL); // Attendre la fin des deux processus enfants
-
-	// if (!child_two_success)
-	// {
-	// 	// Le processus enfant deux a échoué, donc on ne crée pas le fichier f2
-	// 	return;
-	// }
-
-	// // Suite du code pour le processus parent...
+	ft_free_all_data(data);
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	t_data	data;

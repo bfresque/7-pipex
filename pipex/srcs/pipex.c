@@ -6,47 +6,68 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/05/30 15:29:05 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:22:13 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child_process_one(t_data *data, char **av, char **envp)
+void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
 {
+	int	f1;
+	
+	f1 = open(av[1], O_RDONLY);
+	if (f1 < 0)
+	{
+		ft_free_all_data(data);
+		perror(av[1]);
+		exit(-1);
+	}
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
 	if(data->cmd_one.path != NULL)
 	{
 		if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
 		{
-			// ft_free_tab(data->cmd_one.ac);
-			ft_mess_error("Error: Execve child one\n");
+			ft_mess_error("Error: Execve child one\n");// ?????????????????
 			exit(-1);
 		}
 	}
+	close(fd[1]);
+	close(f1);
 }
 
-void	child_process_two(t_data *data, char **av, char **envp)
+void	child_process_two(t_data *data, char **av, char **envp, int	fd[2])
 {
+	int	f2;
+
+	f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (f2 < 0)
+	{
+		ft_free_all_data(data);
+		perror(av[4]);
+		exit(-1);
+	}
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	dup2(f2, STDOUT_FILENO);
 	if(data->cmd_two.path != NULL)
 	{
 		if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
 		{
-			// free(data->cmd_one.path);
-			// ft_free_tab(data->cmd_one.ac);
-			// ft_free_tab(data->cmd_two.ac);
-			ft_mess_error("Error: Execve child two\n");
+			ft_mess_error("Error: Execve child two\n");// ?????????????????
 			exit(-1);
 		}
 	}
+	close(f2);
 }
 
 void	pipex(t_data *data, char **av, char **envp)
 {
 	pid_t	pid;
-	int		fd[2];
-	int		f1;
-	int		f2;
 	int		status;
+	int		fd[2];
 
 	recup_cmd(data, av, envp);
 	pipe(fd);
@@ -54,40 +75,17 @@ void	pipex(t_data *data, char **av, char **envp)
 	if (pid < 0)
 		perror("Fork one");
 	if (pid == 0)
-	{
-		f1 = open(av[1], O_RDONLY);
-		if (f1 < 0)
-		{
-			ft_free_all_data(data);
-			perror(av[1]);
-			exit(-1);
-		}
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		child_process_one(data, av, envp);
-		close(fd[1]);
-		close(f1);
-	}
+		child_process_one(data, av, envp, fd);
 	pid = fork();
 	if (pid < 0)
 		perror("Fork two");
 	if (pid == 0)
 	{
 		waitpid(pid, &status, 0);
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		f2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (f2 < 0)
-		{
-			ft_free_all_data(data);
-			perror(av[4]);
-			exit(-1);
-		}
-		dup2(f2, STDOUT_FILENO);
-		child_process_two(data, av, envp);
-		close(f2);
+		child_process_two(data, av, envp, fd);
 	}
+	close(fd[0]);
+	close(fd[1]);
 	ft_free_all_data(data);
 }
 

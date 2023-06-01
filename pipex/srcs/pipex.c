@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/01 10:22:13 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:04:54 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
 {
 	int	f1;
+	
 	
 	f1 = open(av[1], O_RDONLY);
 	if (f1 < 0)
@@ -29,7 +30,7 @@ void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
 	{
 		if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
 		{
-			ft_mess_error("Error: Execve child one\n");// ?????????????????
+			perror("Error: Execve child one");// ?????????????????
 			exit(-1);
 		}
 	}
@@ -56,7 +57,7 @@ void	child_process_two(t_data *data, char **av, char **envp, int	fd[2])
 	{
 		if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
 		{
-			ft_mess_error("Error: Execve child two\n");// ?????????????????
+			perror("Error: Execve child two");// ?????????????????
 			exit(-1);
 		}
 	}
@@ -89,15 +90,36 @@ void	pipex(t_data *data, char **av, char **envp)
 	ft_free_all_data(data);
 }
 
+int	ft_strcmp_p(char *s1, char *s2)
+{
+	while (*s1 && *s2 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return ((int)(*s1 - *s2));
+}
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_data	data;
+	int fd;
 
-	(void)ac;
-	if(ac == 5)
+	fd = open(av[1], O_DIRECTORY);
+	if (fd > 0)
 	{
-		pipex(&data, av, envp);
+		ft_printf("cat: %s: Is a directory\n", av[1]);
+		exit(1);
 	}
+	(void)ac;
+	// if(ft_strcmp_p(av[1], av[4]) == 0)
+	// {
+	// 	printf("je passe pas\n");
+	// 	exit(0);
+	// }
+	if(ac == 5)
+		pipex(&data, av, envp);
 	else
 		ft_printf("Error: Bad numbers of arguments\n");
 	return (0);

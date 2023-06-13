@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:38:54 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/01 14:24:04 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:14:16 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,23 @@ void	ft_free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	// if(tab[0])
-	// {
-		while (tab[i])
-		{
-			free(tab[i]);
-			i++;
-		}
-	// }
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
 	free(tab);
 }
 
 void	ft_mess_error(char *str)
 {
-	char *s2;
-	int i;
-	int y;
-	
+	char	*s2;
+	int		i;
+	int		y;
+
 	s2 = " : command not found\n";
 	i = ft_strlen(str);
 	y = ft_strlen(s2);
-	
 	write(2, str, i);
 	write(2, s2, y);
 }
@@ -86,12 +82,6 @@ void	ft_free_all_data(t_data *data)
 {
 	free(data->cmd_one.path);
 	free(data->cmd_two.path);
-	// if(data->cmd_one.ac[0])
-		ft_free_tab(data->cmd_one.ac);
-	// else
-		// free(data->cmd_one.ac);
-	// if(data->cmd_two.ac[0])
-		ft_free_tab(data->cmd_two.ac);
-	// else
-		// free(data->cmd_two.ac);
+	ft_free_tab(data->cmd_one.ac);
+	ft_free_tab(data->cmd_two.ac);
 }

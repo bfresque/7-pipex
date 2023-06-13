@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/01 14:36:58 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:07:08 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ int	ft_strchr_pipex(char *str, char c)
 	return (0);
 }
 
+char	*check_absolute_path(char *args)
+{
+	if (ft_strchr_pipex(args, '/') == 1)
+	{
+		if (access(args, F_OK | X_OK) == 0)
+			return (ft_strdup(args));
+		else
+			return (NULL);
+	}
+	return (NULL);
+}
 
 char	*check_cmd_path(char *args, char **envp)
 {
@@ -53,18 +64,6 @@ char	*check_cmd_path(char *args, char **envp)
 	char	*valid_path;
 	int		i;
 
-
-	// if ((ft_strchr_pipex(args, '.') == 1) && (ft_strchr_pipex(args, '/') == 1))
-	// {
-	// 	execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1
-	// }
-	
-	if (ft_strchr_pipex(args, '/') == 1)
-	{
-		if (access(args, 0) == 0)
-			return (args);
-		return (NULL);
-	}
 	temp_path = find_all_paths(envp);
 	valid_path = NULL;
 	i = 0;
@@ -84,34 +83,17 @@ char	*check_cmd_path(char *args, char **envp)
 		if (access(valid_path, X_OK) == 0)
 			return (valid_path);
 	}
-	else if (valid_path == NULL)
-		ft_mess_error(args);
+	ft_mess_error(args);
+	return (NULL);
+}
+
+char	*ft_check_paths(char *args, char **envp)
+{
+	char	*valid_path;
+
+	valid_path = check_absolute_path(args);
+	if (valid_path != NULL)
+		return (valid_path);
+	valid_path = check_cmd_path(args, envp);
 	return (valid_path);
 }
-
-void	recup_cmd(t_data *data, char **av, char **envp)
-{
-	data->cmd_one.ac = ft_split(av[2], ' ');
-	data->cmd_two.ac = ft_split(av[3], ' ');
-
-	data->cmd_one.path = check_cmd_path(*data->cmd_one.ac, envp);
-	data->cmd_two.path = check_cmd_path(*data->cmd_two.ac, envp);
-}
-
-
-// t_cmd	verif_cmd(char *cmd_av, char **envp)
-// {
-// 	t_cmd	command;
-
-// 	command.ac = ft_split(cmd_av, ' ');
-// 	command.path = check_cmd_path(*command.ac, envp);
-// 	return (command);
-// }
-
-// void	recup_cmd(t_data *data, char **av, char **envp)
-// {
-// 	data->cmd_one = verif_cmd(av[2], envp);
-
-// 	data->cmd_two = verif_cmd(av[3], envp);
-
-// }

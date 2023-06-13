@@ -6,17 +6,24 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/01 15:04:54 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:14:58 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
+void	recup_cmd(t_data *data, char **av, char **envp)
+{
+	data->cmd_one.ac = ft_split(av[2], ' ');
+	data->cmd_two.ac = ft_split(av[3], ' ');
+	data->cmd_one.path = ft_check_paths(*data->cmd_one.ac, envp);
+	data->cmd_two.path = ft_check_paths(*data->cmd_two.ac, envp);
+}
+
+void	child_process_one(t_data *data, char **av, char **envp, int fd[2])
 {
 	int	f1;
-	
-	
+
 	f1 = open(av[1], O_RDONLY);
 	if (f1 < 0)
 	{
@@ -26,11 +33,11 @@ void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
 	}
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	if(data->cmd_one.path != NULL)
+	if (data->cmd_one.path != NULL)
 	{
 		if (execve(data->cmd_one.path, data->cmd_one.ac, envp) == -1)
 		{
-			perror("Error: Execve child one");// ?????????????????
+			perror("Error: Execve child one");
 			exit(-1);
 		}
 	}
@@ -38,7 +45,7 @@ void	child_process_one(t_data *data, char **av, char **envp,	int	fd[2])
 	close(f1);
 }
 
-void	child_process_two(t_data *data, char **av, char **envp, int	fd[2])
+void	child_process_two(t_data *data, char **av, char **envp, int fd[2])
 {
 	int	f2;
 
@@ -53,11 +60,11 @@ void	child_process_two(t_data *data, char **av, char **envp, int	fd[2])
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	dup2(f2, STDOUT_FILENO);
-	if(data->cmd_two.path != NULL)
+	if (data->cmd_two.path != NULL)
 	{
 		if (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1)
 		{
-			perror("Error: Execve child two");// ?????????????????
+			perror("Error: Execve child two");
 			exit(-1);
 		}
 	}
@@ -90,21 +97,10 @@ void	pipex(t_data *data, char **av, char **envp)
 	ft_free_all_data(data);
 }
 
-int	ft_strcmp_p(char *s1, char *s2)
-{
-	while (*s1 && *s2 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return ((int)(*s1 - *s2));
-}
-
-
 int	main(int ac, char **av, char **envp)
 {
 	t_data	data;
-	int fd;
+	int		fd;
 
 	fd = open(av[1], O_DIRECTORY);
 	if (fd > 0)
@@ -113,31 +109,9 @@ int	main(int ac, char **av, char **envp)
 		exit(1);
 	}
 	(void)ac;
-	// if(ft_strcmp_p(av[1], av[4]) == 0)
-	// {
-	// 	printf("je passe pas\n");
-	// 	exit(0);
-	// }
-	if(ac == 5)
+	if (ac == 5)
 		pipex(&data, av, envp);
 	else
 		ft_printf("Error: Bad numbers of arguments\n");
 	return (0);
 }
-
-
-/*
-valgrind --trace-children=yes ./pipex infile ls ls outfile //tester les leacks des childs 
-valgrind --track-fds=yes ./pipex infile ls ls outfile // verifer les close/open des fd
-./pipex infile lls ls outfile // la premiere doit foiree ma la deuxieme doit correctement etre executee vis versa
-
-./pipex infile ./a.out cat test   // faire une condition(if av[1] == "./") si il y a un "./" directement envoyer dans le execve
-valgrind ./pipex infile ls ls outfile  // a tester avec les droits de infile et de outfile a 0 atention il doit retourner "infile ou outfile : permission denied"
-
-NE PAS EXECVE S'IL N'Y A PAS DE CHEMIN 
-
-tester avec :
-- un nom de dossier
-- un chemin absolu
-- sans environement env -i (ou  -u)
-*/

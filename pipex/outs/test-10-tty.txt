@@ -1,0 +1,6 @@
+==197934== Memcheck, a memory error detector
+==197934== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==197934== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==197934== Command: ../pipex/pipex assets/deepthought.txt grep\ Now wc\ -w not-existing/test-10.txt
+==197934== 
+==197934== FATAL: can't open suppressions file "assets/supp.supp"

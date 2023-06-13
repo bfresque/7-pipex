@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:38:54 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/13 10:14:16 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:38:36 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ void	ft_mess_error(char *str)
 	int		i;
 	int		y;
 
-	s2 = " : command not found\n";
+	s2 = "command not found: ";
 	i = ft_strlen(str);
 	y = ft_strlen(s2);
-	write(2, str, i);
 	write(2, s2, y);
+	write(2, str, i);
+	write(2, "\n", 1);
 }
 
 void	ft_free_all_data(t_data *data)

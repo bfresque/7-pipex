@@ -1,0 +1,6 @@
+==197891== Memcheck, a memory error detector
+==197891== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==197891== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==197891== Command: ../pipex/pipex assets/deepthought.txt
+==197891== 
+==197891== FATAL: can't open suppressions file "assets/supp.supp"

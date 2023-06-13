@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/13 10:07:08 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:54:05 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*check_cmd_path(char *args, char **envp)
 	while (temp_path[i] && !valid_path)
 	{
 		valid_path = ft_strjoin_pipex(temp_path[i], args);
-		if (access(valid_path, X_OK) != 0)
+		if (access(valid_path, F_OK | X_OK) != 0)
 		{
 			free(valid_path);
 			valid_path = NULL;
@@ -80,7 +80,7 @@ char	*check_cmd_path(char *args, char **envp)
 	ft_free_tab(temp_path);
 	if (valid_path != NULL)
 	{
-		if (access(valid_path, X_OK) == 0)
+		if (access(valid_path, F_OK | X_OK) == 0)
 			return (valid_path);
 	}
 	ft_mess_error(args);

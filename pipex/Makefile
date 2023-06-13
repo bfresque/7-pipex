@@ -6,7 +6,7 @@
 #    By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 10:43:18 by bfresque          #+#    #+#              #
-#    Updated: 2023/05/26 13:23:44 by bfresque         ###   ########.fr        #
+#    Updated: 2023/06/13 15:20:48 by bfresque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 
 CC = gcc
 
-CFLAGS = -Wall #-Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 
 OBJ_DIR_PIPEX = srcs/obj_pipex
 

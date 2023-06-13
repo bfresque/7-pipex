@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/13 10:14:58 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:30:59 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	child_process_one(t_data *data, char **av, char **envp, int fd[2])
 		exit(-1);
 	}
 	close(fd[0]);
+	dup2(f1, 0);
 	dup2(fd[1], STDOUT_FILENO);
 	if (data->cmd_one.path != NULL)
 	{
@@ -41,8 +42,8 @@ void	child_process_one(t_data *data, char **av, char **envp, int fd[2])
 			exit(-1);
 		}
 	}
-	close(fd[1]);
 	close(f1);
+	close(fd[1]);
 }
 
 void	child_process_two(t_data *data, char **av, char **envp, int fd[2])
@@ -57,6 +58,7 @@ void	child_process_two(t_data *data, char **av, char **envp, int fd[2])
 		exit(-1);
 	}
 	close(fd[1]);
+	dup2(f2, 1);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	dup2(f2, STDOUT_FILENO);
@@ -73,27 +75,26 @@ void	child_process_two(t_data *data, char **av, char **envp, int fd[2])
 
 void	pipex(t_data *data, char **av, char **envp)
 {
-	pid_t	pid;
-	int		status;
+	pid_t	pid1;
+	pid_t	pid2;
 	int		fd[2];
 
-	recup_cmd(data, av, envp);
-	pipe(fd);
-	pid = fork();
-	if (pid < 0)
-		perror("Fork one");
-	if (pid == 0)
-		child_process_one(data, av, envp, fd);
-	pid = fork();
-	if (pid < 0)
-		perror("Fork two");
-	if (pid == 0)
+	if (pipe(fd) < 0)
 	{
-		waitpid(pid, &status, 0);
-		child_process_two(data, av, envp, fd);
+		perror("pipe");
+		exit (1);
 	}
+	recup_cmd(data, av, envp);
+	pid1 = fork();
+	if (pid1 == 0)
+		child_process_one(data, av, envp, fd);
+	pid2 = fork();
+	if (pid2 == 0)
+		child_process_two(data, av, envp, fd);
 	close(fd[0]);
 	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 	ft_free_all_data(data);
 }
 
@@ -102,16 +103,15 @@ int	main(int ac, char **av, char **envp)
 	t_data	data;
 	int		fd;
 
+	if (ac != 5)
+		return (ft_printf("Error : bad numbers arguments\n"));
 	fd = open(av[1], O_DIRECTORY);
 	if (fd > 0)
 	{
 		ft_printf("cat: %s: Is a directory\n", av[1]);
 		exit(1);
 	}
+	pipex(&data, av, envp);
 	(void)ac;
-	if (ac == 5)
-		pipex(&data, av, envp);
-	else
-		ft_printf("Error: Bad numbers of arguments\n");
 	return (0);
 }

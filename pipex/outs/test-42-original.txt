@@ -1,0 +1,10 @@
+includes
+infile
+libft
+Makefile
+outfile
+outs
+pipex
+srcs
+test.c
+tester.sh

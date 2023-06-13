@@ -1,0 +1,3 @@
+make: Entering directory '/mnt/nfs/homes/bfresque/Documents/42cursus/7-pipex/pipex'
+make: 'pipex' is up to date.
+make: Leaving directory '/mnt/nfs/homes/bfresque/Documents/42cursus/7-pipex/pipex'

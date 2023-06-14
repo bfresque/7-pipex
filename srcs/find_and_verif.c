@@ -17,6 +17,8 @@ char	**find_all_paths(char **envp)
 	char	*path;
 	char	**all_paths;
 
+	path = NULL;
+	all_paths = NULL;
 	while (*envp)
 	{
 		if (ft_strncmp_pipex("PATH=", *envp, 5) == 0)
@@ -70,7 +72,7 @@ char	*check_cmd_path(char *args, char **envp)
 	char	*valid_path;
 
 	temp_path = find_all_paths(envp);
-	if (ft_isascii(temp_path[0][0]) == 0)
+	if (temp_path == NULL || ft_isascii(temp_path[0][0]) == 0) //modifer ici
 	{
 		write(2, "No such file or directory: ", 28);
 		write(2, args, ft_strlen(args));
@@ -98,3 +100,4 @@ char	*ft_check_paths(char *args, char **envp)
 	valid_path = check_cmd_path(args, envp);
 	return (valid_path);
 }
+

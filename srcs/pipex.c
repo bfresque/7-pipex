@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 10:58:58 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/14 14:52:31 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:32:10 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	child_process_two(t_data *data, char **av, char **envp, int fd[2])
 		perror(av[4]);
 		exit(-1);
 	}
+	dup2(f2, 1);
+	close(f2);
 	dup2(fd[0], 0);
 	close(fd[0]);
 	close(fd[1]);
-	dup2(f2, 1);
-	close(f2);
 	if ((data->cmd_two.path != NULL)
 		&& (execve(data->cmd_two.path, data->cmd_two.ac, envp) == -1))
 	{

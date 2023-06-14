@@ -6,7 +6,7 @@
 #    By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 10:43:18 by bfresque          #+#    #+#              #
-#    Updated: 2023/05/25 16:27:16 by bfresque         ###   ########.fr        #
+#    Updated: 2023/06/14 14:54:56 by bfresque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ OBJ_DIR_PIPEX = srcs/obj_pipex
 OBJ_DIR_LIBFT = libft/obj_libft
 
 SRCS = srcs/pipex.c \
-	srcs/utils.c \
+	srcs/utils_libft.c \
+	srcs/error_and_free.c \
 	srcs/find_and_verif.c \
 
 SRC_LIBFT =	libft/libft/ft_isalpha.c \

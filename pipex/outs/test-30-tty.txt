@@ -1,6 +1,0 @@
-==198205== Memcheck, a memory error detector
-==198205== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==198205== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==198205== Command: ../pipex/pipex /dev/urandom cat head\ -1 outs/test-30.txt
-==198205== 
-==198205== FATAL: can't open suppressions file "assets/supp.supp"

@@ -6,7 +6,7 @@
 /*   By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:43 by bfresque          #+#    #+#             */
-/*   Updated: 2023/06/14 15:04:57 by bfresque         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:54:21 by bfresque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*check_cmd_path(char *args, char **envp)
 	char	*valid_path;
 
 	temp_path = find_all_paths(envp);
-	if (temp_path == NULL || ft_isascii(temp_path[0][0]) == 0) //modifer ici
+	if (temp_path == NULL || ft_isascii(temp_path[0][0]) == 0)
 	{
 		write(2, "No such file or directory: ", 28);
 		write(2, args, ft_strlen(args));
@@ -100,4 +100,3 @@ char	*ft_check_paths(char *args, char **envp)
 	valid_path = check_cmd_path(args, envp);
 	return (valid_path);
 }
-

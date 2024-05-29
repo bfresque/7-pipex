@@ -6,7 +6,7 @@
 #    By: bfresque <bfresque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/17 10:43:18 by bfresque          #+#    #+#              #
-#    Updated: 2023/06/14 14:54:56 by bfresque         ###   ########.fr        #
+#    Updated: 2023/06/14 18:04:22 by bfresque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,11 +96,11 @@ $(OBJ_DIR_PIPEX)/%.o $(OBJ_DIR_LIBFT)/%.o: %.c
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "\033[5;36m\n-gcc *.c libft done\033[0m"
-	@echo "\033[5;36m-gcc *.c get_next_line done\033[0m"
-	@echo "\033[5;36m-gcc *.c ft_printf done\033[0m"
-	@echo "\033[5;36m-gcc *.c pipex done\n\033[0m"
-	@echo "\033[1;32m[Make : 'pipex' is done]\033[0m"
+	@echo "\033[36m\n-gcc *.c libft done\033[0m"
+	@echo "\033[36m-gcc *.c get_next_line done\033[0m"
+	@echo "\033[36m-gcc *.c ft_printf done\033[0m"
+	@echo "\033[36m-gcc *.c pipex done\n\033[0m"
+	@echo "\033[32m[Make : 'pipex' is done]\033[0m"
 
 all : $(NAME)
 

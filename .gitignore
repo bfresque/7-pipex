@@ -1,0 +1,53 @@
+
+# Ignorer les dossiers spécifiques à l'IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Ignorer les fichiers de configuration système ou fichiers temporaires
+*.log
+*.tmp
+*.swp
+*.bak
+db.sqlite3
+.nfs*
+
+# Ignorer les fichiers binaires et cache
+*.exe
+*.dll
+*.obj
+*.o
+*.class
+*.pyc
+*.pyo
+*.pyd
+node_modules/
+dist/
+build/
+cache/
+tmp/
+
+# Ignorer les fichiers de dépendances spécifiques aux projets
+package-lock.json
+yarn.lock
+pip-log.txt
+venv/
+.venv
+__pycache__/
+*pycache*
+
+# Ignorer les fichiers secrets et configurations locales
+.env
+*.env.local
+config/local.json
+credentials.json
+
+# Ignorer les fichiers spécifiques aux déploiements Docker
+docker-compose.override.yml
+
+# Ignorer les fichiers générés par l'utilisateur
+*.iml
+*.ipr
+*.iws
+
